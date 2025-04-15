@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>MindFlow – CalMap</title>
+  <link rel="stylesheet" href="style.css" />
+  <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+  <script>
+    mermaid.initialize({ startOnLoad: true, theme: "dark" });
+  </script>
+</head>
+<body>
+  <div class="container">
+    <aside class="timeline">
+      <h3>📅 Timeline</h3>
+      <select id="filterType">
+        <option value="day">Giorni</option>
+        <option value="month">Mesi</option>
+        <option value="year">Anni</option>
+      </select>
+      <ul id="timelineList">
+        <li onclick="filterByDate('2025-04-15')">📍 Oggi</li>
+        <li onclick="filterByDate('2025-04-16')">Domani</li>
+        <li onclick="filterByDate('2025-04-17')">17/04</li>
+        <li onclick="filterByDate('2025-05')">Maggio</li>
+      </ul>
+    </aside>
+
+    <main id="mainArea">
+      <header>
+        <h1>🧠 CALMAP</h1>
+        <p>Mappa concettuale calendarizzata</p>
+      </header>
+
+      <div class="mermaid" id="calmap">
+        graph TD
+          A["📍 Oggi"]:::today --> B1["✅ Dati & Privacy 1.1"]:::node2025-04-15
+          B1 --> B2["✅ Dati & Privacy 1.2"]:::node2025-04-15
+          B2 --> B3["🕒 Dati & Privacy 1.3"]:::node2025-04-16
+          B3 --> C["🛠️ Avvio D3P"]:::node2025-04-17
+          C --> D1["📱 Test su smartphone"]
+          C --> D2["🧩 Prototipo ItHub"]
+          D2 --> E1["📍 Stanze Locali"]
+          D2 --> E2["🛡️ Accesso Etico"]
+      </div>
+    </main>
+  </div>
+
+  <footer>
+    <button onclick="openSettings()">⚙️ Impostazioni</button>
+    <button onclick="goHome()">🗺️ CALMAP</button>
+    <button onclick="openGamification()">🎮 Gamification</button>
+  </footer>
+
+  <section id="panel-settings" class="panel hidden">
+    <h2>⚙️ Impostazioni</h2>
+    <ul>
+      <li><label><input type="checkbox" id="darkModeToggle" /> Modalità scura</label></li>
+      <li><label><input type="checkbox" id="showCompletedToggle" checked /> Mostra completati</label></li>
+    </ul>
+  </section>
+
+  <section id="panel-gamification" class="panel hidden">
+    <h2>🎮 Gamification</h2>
+    <p>Punti attuali: <span id="points">0</span> / Livello: <span id="level">1</span></p>
+    <ul>
+      <li>✅ Ogni obiettivo completato in anticipo: <strong>+10 punti</strong></li>
+      <li>🏆 Ogni 100 punti: <strong>nuovo livello</strong></li>
+    </ul>
+  </section>
+
+  <script src="script.js"></script>
+</body>
+</html>
