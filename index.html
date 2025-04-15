@@ -5,98 +5,184 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>CalMap - Mappa Concettuale Calendarizzata</title>
   <link rel="stylesheet" href="style.css">
+  <!-- Inclusione delle icone Fontawesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <!-- Dipendenze esterne -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/cytoscape/3.22.1/cytoscape.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/dayjs/1.11.7/dayjs.min.js"></script>
 </head>
 <body>
+  <!-- Overlay tutorial iniziale -->
+  <div id="tutorial-overlay" class="tutorial-overlay">
+    <div class="tutorial-content">
+      <h2>Benvenuto in CalMap!</h2>
+      <p>La tua mappa concettuale calendarizzata.</p>
+      <div class="tutorial-steps">
+        <div class="tutorial-step">
+          <i class="fas fa-plus-circle"></i>
+          <p>Aggiungi nuovi nodi cliccando sul pulsante "+" o sul pulsante "Nuovo Nodo"</p>
+        </div>
+        <div class="tutorial-step">
+          <i class="fas fa-arrows-alt"></i>
+          <p>Trascina i nodi per organizzare il tuo calendario visivo</p>
+        </div>
+        <div class="tutorial-step">
+          <i class="fas fa-calendar-day"></i>
+          <p>Usa la timeline laterale per navigare tra le date</p>
+        </div>
+      </div>
+      <button id="start-calmap" class="tutorial-button">Inizia a usare CalMap</button>
+    </div>
+  </div>
+
   <div class="calmap-container">
     <!-- Timeline laterale -->
     <div class="timeline-container">
-      <!-- La timeline verrà generata dinamicamente dal JavaScript -->
+      <div class="timeline-header">
+        <h3>Timeline</h3>
+        <div class="timeline-controls">
+          <button id="jump-today" class="timeline-button" title="Vai a oggi">
+            <i class="fas fa-calendar-day"></i>
+          </button>
+          <button id="collapse-all" class="timeline-button" title="Comprimi tutti">
+            <i class="fas fa-compress-arrows-alt"></i>
+          </button>
+        </div>
+      </div>
+      <div class="timeline-items" id="timeline-items">
+        <!-- La timeline verrà generata dinamicamente dal JavaScript -->
+      </div>
     </div>
     
     <!-- Container principale per la mappa -->
     <div class="map-container">
       <div id="calmap-container"></div>
+      
+      <!-- Floating action button per aggiungere nodi -->
+      <button id="add-node-fab" class="floating-action-button" title="Aggiungi nuovo nodo">
+        <i class="fas fa-plus"></i>
+      </button>
     </div>
   </div>
+  
+  <!-- Modal per la creazione/modifica nodi -->
+  <div id="node-modal" class="modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 id="modal-title">Nuovo Nodo</h3>
+        <span class="close-modal">&times;</span>
+      </div>
+      <div class="modal-body">
+        <form id="node-form">
+          <div class="form-group">
+            <label for="node-title">Titolo:</label>
+            <input type="text" id="node-title" required placeholder="Inserisci un titolo">
+          </div>
+          <div class="form-group">
+            <label for="node-description">Descrizione:</label>
+            <textarea id="node-description" rows="4" placeholder="Descrizione opzionale"></textarea>
+          </div>
+          <div class="form-group">
+            <label for="node-date">Data:</label>
+            <input type="date" id="node-date">
+          </div>
+          <div class="form-group">
+            <label for="node-color">Colore:</label>
+            <div class="color-selector">
+              <span class="color-option active" data-color="#00E5FF"></span>
+              <span class="color-option" data-color="#FF2E63"></span>
+              <span class="color-option" data-color="#08D9D6"></span>
+              <span class="color-option" data-color="#F9ED69"></span>
+              <span class="color-option" data-color="#3FC1C9"></span>
+            </div>
+          </div>
+          <div class="form-actions">
+            <button type="submit" class="btn-primary">Salva</button>
+            <button type="button" class="btn-secondary" id="cancel-node">Annulla</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Modal delle impostazioni -->
+  <div id="settings-modal" class="modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3>Impostazioni</h3>
+        <span class="close-modal">&times;</span>
+      </div>
+      <div class="modal-body">
+        <form id="settings-form">
+          <div class="form-group">
+            <label for="theme-select">Tema:</label>
+            <select id="theme-select">
+              <option value="dark">Scuro (predefinito)</option>
+              <option value="light">Chiaro</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="layout-select">Layout predefinito:</label>
+            <select id="layout-select">
+              <option value="preset">Libero</option>
+              <option value="grid">Griglia</option>
+              <option value="circle">Cerchio</option>
+              <option value="concentric">Concentrico</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>
+              <input type="checkbox" id="show-dates">
+              Mostra date sui nodi
+            </label>
+          </div>
+          <div class="form-group">
+            <label>
+              <input type="checkbox" id="auto-save" checked>
+              Salvataggio automatico
+            </label>
+          </div>
+          <div class="form-group">
+            <button type="button" id="export-data" class="btn-secondary">
+              <i class="fas fa-download"></i> Esporta dati
+            </button>
+            <button type="button" id="import-data" class="btn-secondary">
+              <i class="fas fa-upload"></i> Importa dati
+            </button>
+            <input type="file" id="import-file" hidden>
+          </div>
+          <div class="form-actions">
+            <button type="submit" class="btn-primary">Salva Impostazioni</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Toast per le notifiche -->
+  <div id="toast" class="toast"></div>
   
   <!-- Barra inferiore fissa -->
   <div class="bottom-bar">
-    <button class="bottom-bar-button" id="settings-button">Impostazioni</button>
-    <button class="bottom-bar-button center-button" id="calmap-button">CALMAP</button>
-    <div class="bottom-bar-button" id="gamification-button">
+    <button class="bottom-bar-button" id="settings-button">
+      <i class="fas fa-cog"></i>
+      <span>Impostazioni</span>
+    </button>
+    <button class="bottom-bar-button center-button" id="calmap-button">
+      <i class="fas fa-map"></i>
+      <span>CALMAP</span>
+    </button>
+    <button class="bottom-bar-button" id="gamification-button">
+      <i class="fas fa-trophy"></i>
       <span class="gamification-score">0 punti</span>
-    </div>
+    </button>
   </div>
   
-  <!-- Script -->
-  <script src="script.js"></script>
-  <script>
-    document.addEventListener('DOMContentLoaded', () => {
-      // Inizializza la webapp
-      const cy = cytoscape({
-        container: document.getElementById('calmap-container'),
-        style: [
-          {
-            selector: 'node',
-            style: {
-              'label': 'data(label)',
-              'background-color': '#121212',
-              'color': '#ffffff',
-              'text-valign': 'center',
-              'text-halign': 'center',
-              'border-width': '1px',
-              'border-color': '#2a2a2a',
-              'shape': 'roundrectangle',
-              'width': 'label',
-              'height': 'label',
-              'padding': '10px'
-            }
-          },
-          {
-            selector: 'edge',
-            style: {
-              'width': 3,
-              'line-color': '#555555',
-              'target-arrow-color': '#555555',
-              'target-arrow-shape': 'triangle',
-              'curve-style': 'bezier'
-            }
-          }
-        ],
-        layout: {
-          name: 'preset'
-        }
-      });
-      
-      // Inizializza il sistema di automazione
-      if (window.initializeAutomation) {
-        window.initializeAutomation(cy);
-      }
-      
-      // Inizializza la timeline
-      if (window.renderTimeline) {
-        window.renderTimeline();
-      }
-      
-      // Gestione pulsanti barra inferiore
-      document.getElementById('calmap-button').addEventListener('click', () => {
-        // Reimposta la vista della mappa
-        cy.fit();
-        cy.center();
-      });
-      
-      document.getElementById('settings-button').addEventListener('click', () => {
-        // Mostra il modal delle impostazioni (da implementare)
-        alert('Impostazioni (da implementare)');
-      });
-      
-      document.getElementById('gamification-button').addEventListener('click', () => {
-        // Mostra i dettagli del punteggio (da implementare)
-        alert('Gamification (da implementare)');
-      });
-    });
-  </script>
+  <!-- Scripts modulari -->
+  <script src="core.js"></script>
+  <script src="timeline.js"></script>
+  <script src="node-operations.js"></script>
+  <script src="automation.js"></script>
+  <script src="ui-handlers.js"></script>
 </body>
 </html>
