@@ -3,28 +3,25 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>CalMap</title>
+  <title>MindFlow – CalMap</title>
   <link rel="stylesheet" href="style.css" />
-  <script type="module">
-    import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
-    mermaid.initialize({ startOnLoad: true, theme: 'dark' });
+  <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+  <script>
+    mermaid.initialize({ startOnLoad: true, theme: "dark" });
   </script>
 </head>
 <body>
   <header>
-    <h1>🧠 CalMap</h1>
-    <p>La tua mappa evolutiva di idee e obiettivi</p>
+    <h1>🧠 CALMAP</h1>
+    <p>Mappa concettuale calendarizzata</p>
   </header>
 
   <main>
-    <div class="mermaid" id="calmap">
-      %% Qui verrà caricata la mappa dal file .mmd (staticamente in questa versione)
-      %% Inserisci o modifica il contenuto in `data.mmd`
-      %% Es. iniziale sotto:
+    <div class="mermaid">
       graph TD
-        Start((📍 Oggi)) --> DigIn1["🛠 Dati & Privacy 1.3"]
-        DigIn1 --> DigIn2["🛠 AI 1.3"]
-        DigIn2 --> DigIn3["🕒 Tecnologia nella Società 1.3"]
+        Start((📍 Oggi)) --> DigIn1["✅ Dati & Privacy 1.1"]
+        DigIn1 --> DigIn2["✅ Dati & Privacy 1.2"]
+        DigIn2 --> DigIn3["🕒 Dati & Privacy 1.3"]
         DigIn3 --> D3P["🛠️ Avvio D3P"]
         D3P --> D3PTest["📱 Test su smartphone"]
         D3P --> ItHub["🧩 Prototipo ItHub"]
@@ -37,4 +34,25 @@
     <button onclick="openSettings()">⚙️ Impostazioni</button>
     <button onclick="goHome()">🗺️ CALMAP</button>
     <button onclick="openGamification()">🎮 Gamification</button>
-  </footer
+  </footer>
+
+  <section id="panel-settings" class="panel hidden">
+    <h2>⚙️ Impostazioni</h2>
+    <ul>
+      <li><label><input type="checkbox" id="darkModeToggle" /> Modalità scura</label></li>
+      <li><label><input type="checkbox" id="showCompletedToggle" checked /> Mostra completati</label></li>
+    </ul>
+  </section>
+
+  <section id="panel-gamification" class="panel hidden">
+    <h2>🎮 Gamification</h2>
+    <p>Punti attuali: <span id="points">0</span> / Livello: <span id="level">1</span></p>
+    <ul>
+      <li>✅ Ogni obiettivo completato in anticipo: <strong>+10 punti</strong></li>
+      <li>🏆 Ogni 100 punti: <strong>nuovo livello</strong></li>
+    </ul>
+  </section>
+
+  <script src="script.js"></script>
+</body>
+</html>
