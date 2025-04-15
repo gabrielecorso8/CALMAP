@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>CalMap</title>
+  <link rel="stylesheet" href="style.css" />
+  <script type="module">
+    import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+    mermaid.initialize({ startOnLoad: true, theme: 'dark' });
+  </script>
+</head>
+<body>
+  <header>
+    <h1>🧠 CalMap</h1>
+    <p>La tua mappa evolutiva di idee e obiettivi</p>
+  </header>
+
+  <main>
+    <div class="mermaid" id="calmap">
+      %% Qui verrà caricata la mappa dal file .mmd (staticamente in questa versione)
+      %% Inserisci o modifica il contenuto in `data.mmd`
+      %% Es. iniziale sotto:
+      graph TD
+        Start((📍 Oggi)) --> DigIn1["🛠 Dati & Privacy 1.3"]
+        DigIn1 --> DigIn2["🛠 AI 1.3"]
+        DigIn2 --> DigIn3["🕒 Tecnologia nella Società 1.3"]
+        DigIn3 --> D3P["🛠️ Avvio D3P"]
+        D3P --> D3PTest["📱 Test su smartphone"]
+        D3P --> ItHub["🧩 Prototipo ItHub"]
+        ItHub --> HubLoc["📍 Stanze Locali"]
+        ItHub --> SPID["🛡️ Accesso Etico"]
+    </div>
+  </main>
+
+  <footer>
+    <button onclick="openSettings()">⚙️ Impostazioni</button>
+    <button onclick="goHome()">🗺️ CALMAP</button>
+    <button onclick="openGamification()">🎮 Gamification</button>
+  </footer
