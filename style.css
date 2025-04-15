@@ -1,0 +1,281 @@
+/* Stile principale per CalMap - Moderno-neon */
+:root {
+  --background-color: #0a0a0a;
+  --text-color: #f5f5f7;
+  --accent-color: #00e5ff;
+  --highlight-color: #ffff00;
+  --success-color: #00ff7f;
+  --error-color: #ff3b30;
+  --node-bg: #121212;
+  --node-border: #2a2a2a;
+  --edge-color: #555555;
+  --glow-intensity: 5px;
+}
+
+body {
+  background-color: var(--background-color);
+  color: var(--text-color);
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+}
+
+/* Container principale */
+.calmap-container {
+  display: flex;
+  height: 100vh;
+  width: 100vw;
+}
+
+/* Timeline laterale */
+.timeline-container {
+  width: 200px;
+  border-right: 1px solid #333;
+  background-color: rgba(20, 20, 20, 0.95);
+  height: 100%;
+  overflow-y: auto;
+  padding: 10px;
+}
+
+.timeline-section {
+  margin-bottom: 20px;
+}
+
+.timeline-section h3 {
+  font-size: 16px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: var(--accent-color);
+  margin-bottom: 10px;
+  font-weight: 500;
+}
+
+.timeline-list {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.timeline-item {
+  padding: 8px 12px;
+  border-radius: 6px;
+  background-color: #202020;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-size: 14px;
+}
+
+.timeline-item:hover {
+  background-color: #2a2a2a;
+  transform: translateX(3px);
+}
+
+.timeline-item.active {
+  background-color: #333;
+  border-left: 3px solid var(--highlight-color);
+  box-shadow: 0 0 10px var(--highlight-color);
+}
+
+/* Container principale per la mappa */
+.map-container {
+  flex: 1;
+  height: 100%;
+  position: relative;
+}
+
+#calmap-container {
+  width: 100%;
+  height: 100%;
+}
+
+/* Stile per i nodi della mappa */
+.node {
+  background-color: var(--node-bg);
+  border: 1px solid var(--node-border);
+  border-radius: 8px;
+  padding: 12px 15px;
+  font-size: 14px;
+  color: var(--text-color);
+  transition: all 0.3s ease;
+  position: relative;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+}
+
+.node:hover {
+  transform: scale(1.05);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.4);
+}
+
+/* Evidenziazione neon per i nodi selezionati */
+.node-highlight {
+  border-color: var(--highlight-color);
+  border-width: 2px;
+  box-shadow: 0 0 var(--glow-intensity) var(--highlight-color);
+}
+
+/* Stile neon per nuovi nodi */
+.new-node {
+  border-color: var(--success-color);
+  border-width: 2px;
+  box-shadow: 0 0 var(--glow-intensity) var(--success-color);
+  animation: pulse 1.5s infinite alternate;
+}
+
+/* Stile per i nodi "+" */
+.add-button {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background-color: #333;
+  border: none;
+  color: #ddd;
+  font-size: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.add-button:hover {
+  background-color: #555;
+  transform: scale(1.2);
+  box-shadow: 0 0 10px rgba(255, 255, 255, 0.2);
+}
+
+/* Stile per le connessioni (frecce) */
+.edge {
+  stroke: var(--edge-color);
+  stroke-width: 2px;
+  transition: all 0.3s ease;
+}
+
+.edge:hover {
+  stroke: #888;
+  stroke-width: 3px;
+}
+
+.edge.highlighted {
+  stroke: var(--highlight-color);
+  stroke-width: 3px;
+  filter: drop-shadow(0 0 var(--glow-intensity) var(--highlight-color));
+}
+
+/* Barra inferiore fissa */
+.bottom-bar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 60px;
+  background-color: rgba(20, 20, 20, 0.9);
+  backdrop-filter: blur(10px);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 20px;
+  border-top: 1px solid #333;
+  z-index: 1000;
+}
+
+.bottom-bar-button {
+  padding: 10px 15px;
+  border-radius: 8px;
+  border: none;
+  background-color: transparent;
+  color: var(--text-color);
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.bottom-bar-button:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.bottom-bar-button.active {
+  color: var(--accent-color);
+}
+
+.center-button {
+  font-size: 16px;
+  font-weight: 600;
+  background-color: rgba(0, 229, 255, 0.1);
+  padding: 12px 20px;
+  border-radius: 12px;
+  color: var(--accent-color);
+}
+
+.center-button:hover {
+  background-color: rgba(0, 229, 255, 0.2);
+  box-shadow: 0 0 15px rgba(0, 229, 255, 0.4);
+}
+
+/* Stile del punteggio di gamification */
+.gamification-score {
+  background-color: rgba(0, 255, 127, 0.1);
+  color: var(--success-color);
+  padding: 5px 10px;
+  border-radius: 12px;
+  font-weight: 600;
+}
+
+/* Animazioni */
+@keyframes pulse {
+  0% {
+    box-shadow: 0 0 5px var(--success-color);
+  }
+  100% {
+    box-shadow: 0 0 15px var(--success-color);
+  }
+}
+
+/* Media query per responsività su mobile */
+@media (max-width: 768px) {
+  .calmap-container {
+    flex-direction: column;
+  }
+  
+  .timeline-container {
+    width: 100%;
+    height: 150px;
+    border-right: none;
+    border-bottom: 1px solid #333;
+  }
+  
+  .timeline-list {
+    flex-direction: row;
+    overflow-x: auto;
+    padding-bottom: 5px;
+  }
+  
+  .timeline-section {
+    margin-bottom: 5px;
+  }
+  
+  .timeline-item {
+    min-width: 70px;
+    text-align: center;
+  }
+  
+  .timeline-item.active {
+    border-left: none;
+    border-bottom: 3px solid var(--highlight-color);
+  }
+  
+  .bottom-bar {
+    height: 50px;
+  }
+  
+  .bottom-bar-button {
+    padding: 8px 12px;
+    font-size: 12px;
+  }
+  
+  .center-button {
+    font-size: 14px;
+    padding: 10px 15px;
+  }
+}
