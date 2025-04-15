@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CalMap - Mappa Concettuale Calendarizzata</title>
+  <link rel="stylesheet" href="style.css">
+  <!-- Dipendenze esterne -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/cytoscape/3.22.1/cytoscape.min.js"></script>
+</head>
+<body>
+  <div class="calmap-container">
+    <!-- Timeline laterale -->
+    <div class="timeline-container">
+      <!-- La timeline verrà generata dinamicamente dal JavaScript -->
+    </div>
+    
+    <!-- Container principale per la mappa -->
+    <div class="map-container">
+      <div id="calmap-container"></div>
+    </div>
+  </div>
+  
+  <!-- Barra inferiore fissa -->
+  <div class="bottom-bar">
+    <button class="bottom-bar-button" id="settings-button">Impostazioni</button>
+    <button class="bottom-bar-button center-button" id="calmap-button">CALMAP</button>
+    <div class="bottom-bar-button" id="gamification-button">
+      <span class="gamification-score">0 punti</span>
+    </div>
+  </div>
+  
+  <!-- Script -->
+  <script src="script.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      // Inizializza la webapp
+      const cy = cytoscape({
+        container: document.getElementById('calmap-container'),
+        style: [
+          {
+            selector: 'node',
+            style: {
+              'label': 'data(label)',
+              'background-color': '#121212',
+              'color': '#ffffff',
+              'text-valign': 'center',
+              'text-halign': 'center',
+              'border-width': '1px',
+              'border-color': '#2a2a2a',
+              'shape': 'roundrectangle',
+              'width': 'label',
+              'height': 'label',
+              'padding': '10px'
+            }
+          },
+          {
+            selector: 'edge',
+            style: {
+              'width': 3,
+              'line-color': '#555555',
+              'target-arrow-color': '#555555',
+              'target-arrow-shape': 'triangle',
+              'curve-style': 'bezier'
+            }
+          }
+        ],
+        layout: {
+          name: 'preset'
+        }
+      });
+      
+      // Inizializza il sistema di automazione
+      if (window.initializeAutomation) {
+        window.initializeAutomation(cy);
+      }
+      
+      // Inizializza la timeline
+      if (window.renderTimeline) {
+        window.renderTimeline();
+      }
+      
+      // Gestione pulsanti barra inferiore
+      document.getElementById('calmap-button').addEventListener('click', () => {
+        // Reimposta la vista della mappa
+        cy.fit();
+        cy.center();
+      });
+      
+      document.getElementById('settings-button').addEventListener('click', () => {
+        // Mostra il modal delle impostazioni (da implementare)
+        alert('Impostazioni (da implementare)');
+      });
+      
+      document.getElementById('gamification-button').addEventListener('click', () => {
+        // Mostra i dettagli del punteggio (da implementare)
+        alert('Gamification (da implementare)');
+      });
+    });
+  </script>
+</body>
+</html>
